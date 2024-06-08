@@ -1,5 +1,7 @@
 package com.security.security.service;
 
+import com.security.security.model.BlackListedToken;
+import com.security.security.repository.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class TokenService {
+
+
 
     @Autowired
     private JwtEncoder jwtEncoder;
@@ -38,5 +42,6 @@ public class TokenService {
                 .build();
         return jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
     }
+
 
 }

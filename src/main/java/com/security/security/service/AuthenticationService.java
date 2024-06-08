@@ -1,6 +1,7 @@
 package com.security.security.service;
 
 import com.security.security.DTO.LoginResponseDTO;
+import com.security.security.DTO.LogoutDTO;
 import com.security.security.model.ApplicationUser;
 import com.security.security.model.Role;
 import com.security.security.repository.RoleRepository;
@@ -34,6 +35,9 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private TokenBlackListService tokenBlackListService;
+
+    @Autowired
     private TokenService tokenService;
 
 
@@ -61,6 +65,15 @@ public class AuthenticationService {
 
 
 
+    }
+    public LogoutDTO logoutUser(String token) {
+
+        if (token != null && token.startsWith("Bearer ")) {
+            String jwt = token.substring(7);
+            tokenBlackListService.blackListToken(jwt);
+            return new LogoutDTO(token);
+        }
+        return new LogoutDTO(token);
     }
 }
 
